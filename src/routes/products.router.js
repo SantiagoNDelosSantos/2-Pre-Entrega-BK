@@ -28,11 +28,20 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const products = await managerProducts.consultarProductos();
-        res.send({
-            products
-        });
-    } catch (error) {
+
+        const limit = Number(req.query.limit);
+        const page = Number(req.query.page);
+        let sort = Number(req.query.sort);
+        let filtro = req.query.filtro;
+        let filtroVal = req.query.filtroVal;
+
+        const products = await managerProducts.consultarProductos(limit, page, sort, filtro, filtroVal);
+
+        res.send({ products });
+    } 
+    
+    
+    catch (error) {
         console.error("Error:", error.message);
         res.status(500).json({
             error: "Error al consultar los productos. Por favor, inténtelo de nuevo más tarde."

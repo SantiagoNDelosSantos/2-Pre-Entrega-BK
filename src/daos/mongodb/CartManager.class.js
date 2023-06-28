@@ -32,4 +32,18 @@ export default class ManagerCarts {
         return;
     }
 
+    async deleteProductFromCart(cartId, productId){
+        const cart = await this.consultarCartPorId(cartId);
+        cart.products.pull(productId);
+        await cart.save();
+        return;
+    }
+
+    async deleteAllProductFromCart(cartId){
+        const cart = await this.consultarCartPorId(cartId);
+        cart.products = [];
+        await cart.save();
+        return;
+    }
+
 }

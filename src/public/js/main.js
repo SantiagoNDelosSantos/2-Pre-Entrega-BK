@@ -16,9 +16,9 @@ socket.on("productos", (data) => {
       <tr>
           <th>Modelo</th>
           <th>Descripción</th>
-          <th>Code</th>
+          <th>Img</th>   
           <th>Precio</th>
-          <th>Unidades Disponibles</th>
+          <th>Stock</th>
           <th>Categoría</th>
           <th>Eliminar</th>
       </tr>
@@ -29,12 +29,12 @@ socket.on("productos", (data) => {
     <tbody>
       <tr>
         <td>${product.title}</td>
-        <td>${product.description}</td>
-        <td>${product.code}</td>
+        <td class="description">${product.description}</td>
+        <td><img src="${product.thumbnails[0]}" alt="${product.title}" class="Imgs"></td>
         <td>$${product.price}</td>
         <td>${product.stock} Und.</td>
         <td>${product.category}</td>
-        <td><button type="submit" id=${product.id} class="btnDelete boton" >Eliminar</button></td>
+        <td><button type="submit" id="${product.id}" class="btnDelete boton" >Eliminar</button></td>
       </tr>
     </tbody>`;
   })
@@ -65,11 +65,11 @@ btmAgregar.addEventListener("click", (e) => {
   const description = document.getElementById("description").value;
   const code = document.getElementById("code").value;
   const price = document.getElementById("price").value;
-  const stock = document.getElementById("unds").value;
+  const stock = document.getElementById("stock").value;
   const category = document.getElementById("category").value;
 
   // Validamos que los campos estencompletados:
-  if (title === "" || description === "" || code === "" || price === "" || unds === "" || category === "") {
+  if (title === "" || description === "" || code === "" || price === "" || stock === "" || category === "") {
     alert("Todos los campos son obligatorios");
   } else {
     // Creamos el producto:

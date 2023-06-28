@@ -48,7 +48,7 @@ export const smsMANGR = new  ManagerMessage();
 
 socketServer.on("connection", async (socket) => {
 
-    const products = await pdcMANGR.consultarProductos();
+    const products = await pdcMANGR.consultarProductos0();
 
     const messages = await smsMANGR.verMensajes();
 

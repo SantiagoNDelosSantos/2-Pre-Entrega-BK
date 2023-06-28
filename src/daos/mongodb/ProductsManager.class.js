@@ -11,10 +11,27 @@ export default class ManagerProducts {
         return result;
     };
 
-    async consultarProductos() {
+
+    async consultarProductos0() {
         let result = await productsModel.find().lean();
         return result;
     };
+
+
+    async consultarProductos(limit = 10, page = 1, sort = 0, filtro = null, filtroVal = null) {
+        let whereOptions = {};
+        if(filtro != '' && filtroVal != ''){
+            whereOptions = {[filtro]:filtroVal};
+        };
+        let result = await productsModel.paginate(whereOptions, {
+            limit: limit, page: page, sort: {price: sort}
+        });
+        return result;
+    };
+
+
+
+
 
     async consultarProductoPorId(id) {
         let result = await productsModel.findOne({

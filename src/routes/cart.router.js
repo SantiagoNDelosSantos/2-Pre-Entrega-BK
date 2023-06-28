@@ -23,9 +23,24 @@ router.post("/", async (req, res) => {
 router.post('/:cid/products/:pid', async (req, res) => {
     const cartId = req.params.cid
     const productId = req.params.pid
-
     await managerCarts.agregarProductoEnCarrito(cartId, productId)
     res.send({status: 'Success.'})
 }); 
+
+router.delete('/:cid/products/:pid', async (req, res) => {
+    const cartId = req.params.cid
+    const productId = req.params.pid
+    await managerCarts.deleteProductFromCart(cartId, productId)
+    res.send({status: 'Success.'})
+}); 
+
+router.delete('/:cid', async (req, res) => {
+    const cartId = req.params.cid
+    await managerCarts.deleteAllProductFromCart(cartId)
+    res.send({status: 'Success.'})
+}); 
+
+
+
 
 export default router;
