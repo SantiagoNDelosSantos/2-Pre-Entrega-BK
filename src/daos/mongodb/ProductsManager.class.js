@@ -18,6 +18,9 @@ export default class ManagerProducts {
     };
 
 
+
+    
+
     async consultarProductos(limit = 10, page = 1, sort = 0, filtro = null, filtroVal = null) {
         let whereOptions = {};
         if(filtro != '' && filtroVal != ''){

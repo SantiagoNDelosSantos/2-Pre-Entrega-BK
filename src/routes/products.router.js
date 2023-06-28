@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 
         const products = await managerProducts.consultarProductos(limit, page, sort, filtro, filtroVal);
 
-        res.send({ products });
+        res.render("products", {products});
     } 
     
     
