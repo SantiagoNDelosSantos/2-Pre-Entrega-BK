@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+h1 {
+  font-family: 'Montserrat';
+}
+
+.table th {
+  font-family: 'Montserrat';
+  background-color: #d7eefd;
+  border-bottom: 2px solid #edf2f7;
+  color: #002877;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table td {
+  font-family: 'Montserrat';
+  border-bottom: 1px solid #edf2f7;
+  color: #000000;
+  font-size: 0.8rem;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.table td:first-child {
+  font-weight: 600;
+}
+
+.table td:nth-child(3) {
+  font-weight: 600;
+}
+
+.table td:last-child {
+  text-align: left;
+}
+
+.boton {
+  color: #002877;
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  padding: 0.5em;
+  background-color: #d7eefd;
+  border-radius: 2em;
+  border: none;
+}
+
+.boton:hover {
+  background-color: #bfe4fd;
+}
+
+input {
+  border: none;
+  background-color: #efefef;
+  padding: 0.5em;
+  width: 80%;
+  font-family: 'Montserrat';
+  border-bottom: 1px solid #edf2f7;
+  color: #000000;
+  font-size: 0.8rem;
+  padding: 12px 15px;
+  text-align: left;
+}

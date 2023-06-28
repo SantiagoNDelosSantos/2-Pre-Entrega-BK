@@ -1,0 +1,45 @@
+<div class="container">
+
+    <h1>Listado de productos en tiempo real:</h1>
+
+    <table id="table" class="table">
+    </table>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Descripción</th>
+                <th>Code</th>
+                <th>Precio</th>
+                <th>Unidades Disponibles</th>
+                <th>Categoría</th>
+                <th>Agregar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><input type="text" id="title" placeholder="Modelo"/></td>
+                <td><input type="text" id="description" placeholder="Descripción"/></td>
+                <td><input type="text" id="code" placeholder="Code"/></td>
+                <td><input type="text" id="price" placeholder="Precio"/></td>    
+                <td><input type="text" id="unds" placeholder="Unidades" /></td>
+                <td><input type="text" id="category" placeholder="Categoria"/></td>
+
+                <td>
+                    <button type="submit" class="boton" id="btnAdd">Agregar</button>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/main.js" type="module"></script>
