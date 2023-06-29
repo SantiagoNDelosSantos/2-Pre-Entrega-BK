@@ -80,7 +80,7 @@ tbody {
   text-align: center;
 }
 
-.boton:hover {
+.boton:hover, .pag:hover {
   background-color: #bfe4fd;
 }
 
@@ -88,20 +88,33 @@ tbody {
   margin-top: 1em;
   margin-right: 1em;
   margin-left: 1em;
+  color: #002877;
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  padding: 0.5em;
+  background-color: #d7eefd;
+  border-radius: 1em;
 }
 
+.pagNumber{  
+  background: none;
+}
+
+.pagNumber:hover{
+  background: none;
+}
 
 input {
   border: none;
   background-color: #efefef;
-  padding: 0.5em;
-  width: 80%;
+  width: 100%;
   font-family: 'Montserrat';
   border-bottom: 1px solid #edf2f7;
   color: #000000;
   font-size: 0.8rem;
-  padding: 12px 15px;
-  text-align: left;
+  padding: 15px 5px;
+  text-align: center;
+  border-radius: 1em;
 }
 
 .Imgs {

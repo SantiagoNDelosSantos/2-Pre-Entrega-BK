@@ -2,15 +2,69 @@
 const socket = io();
 
 // Capturas del DOM:
-const table = document.getElementById('table');
-const btmAgregar = document.getElementById('btnAdd')
 
-// Captura para paginación DOM: 
-const prevPageButton = document.getElementById('prevPageButton');
-const nextPageButton = document.getElementById('nextPageButton');
+// Captura para tabla de filtros DOM:
+const tableFil = document.getElementById('tableFil');
+
+// Captura para tabla de productos DOM:
+const table = document.getElementById('table');
+
+// Capturas paginación DOM:
+const prevPageButton = document.getElementById('Prev');
+const numberPagElement = document.getElementById('numberPag');
+const nextPageButton = document.getElementById('Next');
+
+    ////////////////////////////////////
+
+//Capturas para Imputs de los filtros: 
+
+const limit = document.getElementById('limit');
+const page = document.getElementById("page");
+const sort = document.getElementById("sort");
+const filtro = document.getElementById("filtro");
+const filtroVal = document.getElementById("filtroVal");
+const filtrar = document.getElementById("filtrar");
+const limpiarFiltros = document.getElementById("limpiarFiltros");
+
+
+function filtrarProducts() {
+  const busquedaProducts = {
+    limit: limit.value || 10,
+    page: page.value || 1,
+    sort: sort.value || 0,
+    filtro: filtro.value || null,
+    filtroVal: filtroVal.value || null,
+  }
+
+  console.log(busquedaProducts)
+  socket.emit('busquedaFiltrada', busquedaProducts);
+}
+
+filtrar.addEventListener('click', (e) => {
+  e.preventDefault();
+  filtrarProducts();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////
+
 
 // Escucha el evento product enviado por el servidor
 socket.on("productos", (data) => {
+
+  console.log(data)
 
   let htmlProductos = "";
 
@@ -47,27 +101,3 @@ socket.on("productos", (data) => {
 
 });
 
-
-// Función para cargar los productos con los parámetros de búsqueda
-function cargarProductos() {
-  const parametrosBusqueda = obtenerParametrosBusqueda();
-  socket.emit("getProductos", parametrosBusqueda);
-}
-
-// Agregar eventos a los botones de paginación
-prevPageButton.addEventListener("click", () => {
-  const currentPage = Number(pageInput.value);
-  if (currentPage > 1) {
-    pageInput.value = currentPage - 1;
-    cargarProductos();
-  }
-});
-
-nextPageButton.addEventListener("click", () => {
-  const currentPage = Number(pageInput.value);
-  const totalPages = Number(document.getElementById("totalPages").value);
-  if (currentPage < totalPages) {
-    pageInput.value = currentPage + 1;
-    cargarProductos();
-  }
-});

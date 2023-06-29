@@ -1,0 +1,54 @@
+<div class="container">
+
+    <h1>Catálogo en tiempo real:</h1>
+
+    <table id="tableFil" class="table">
+
+        <thead>
+            <tr>
+                <th>Limit</th>
+                <th>Page</th>
+                <th>Sort</th>
+                <th>Filtro</th>
+                <th>Filtro Valor</th>
+                <th>Filtrar</th>
+                <th>Reset</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+
+                <td><input type="text" id="limit" placeholder="Indicar Limit"/></td>
+
+                <td><input type="text" id="page" placeholder="Indicar Page"/></td>
+                
+                <td><input type="text" id="sort" placeholder="Indicar Sort"/></td>
+                
+                <td><input type="text" id="filtro" placeholder="Indicar Filtro"/></td>
+                
+                <td><input type="text" id="filtroVal" placeholder="Indicar Valor de Filtro"/></td>
+                
+                <td><p class="boton" id="filtrar">Filtrar</p></td>
+                
+                <td><p class="boton" id="limpiarFiltros">Eliminar Filtros</p></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <table id="table" class="table">
+    </table>
+
+    <div class="Pags">
+        <h2 class="pag" id="Prev">Prev</h2>
+        <h2 class="pag pagNumber" id="numberPag">1</h2>
+        <h2 class="pag" id="Next">Next</h2>
+    </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/main.js" type="module"></script>

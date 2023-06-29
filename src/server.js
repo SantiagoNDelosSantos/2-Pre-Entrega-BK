@@ -46,19 +46,57 @@ export const pdcMANGR = new ManagerProducts();
 
 export const smsMANGR = new  ManagerMessage();
 
+
+
 socketServer.on("connection", async (socket) => {
-
-    const products = await pdcMANGR.consultarProductos();
-
-    const messages = await smsMANGR.verMensajes();
-
+    
     // Mensaje de nuevo cliente conectado:
     console.log("¡Nuevo cliente conectado!", socket.id)
 
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    // Acá es donde yo me conecto al backend y accedo a todos los async de ProductsManager:
+
+    // Recibo los filtros de main.js en busquedaProducts
+
+
+    socket.on('busquedaFiltrada', async (busquedaProducts) => {
+
+        const { limit, page, sort, filtro, filtroVal } = busquedaProducts;
+
+        let whereOptions = {};
+      
+        if (filtro && filtroVal) {
+          whereOptions = { [filtro]: filtroVal };
+        }
+      
+        console.log(limit, page, sort, whereOptions)
+
+        const products = await pdcMANGR.consultarProductos(limit, page, sort, whereOptions);
+
+        socket.emit('productos', products);
+        
+      });
+      
+
+
+
+
+
+
+
+
+
+
+    const messages = await smsMANGR.verMensajes();
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+
+
     //..........................
 
-    // Enviamos los productos al cliente que se conecto: 
-    socket.emit("productos", products);
+   
+
 
     // Enviamos los mensajes al usuario:
     socket.emit("messages", messages);
