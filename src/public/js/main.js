@@ -10,13 +10,11 @@ const tableFil = document.getElementById('tableFil');
 const table = document.getElementById('table');
 
 // Capturas paginación DOM:
-const prevPageButton = document.getElementById('Prev');
-const numberPagElement = document.getElementById('numberPag');
-const nextPageButton = document.getElementById('Next');
+const Pags = document.getElementById('Pags');
 
-    ////////////////////////////////////
+////////////////////////////////////
 
-//Capturas para Imputs de los filtros: 
+// Capturas para Imputs de los filtros: 
 
 const limit = document.getElementById('limit');
 const page = document.getElementById("page");
@@ -27,18 +25,25 @@ const filtrar = document.getElementById("filtrar");
 const limpiarFiltros = document.getElementById("limpiarFiltros");
 
 
+// Envio los valores de los inputs a server.js:
+
 function filtrarProducts() {
+
   const busquedaProducts = {
     limit: limit.value || 10,
     page: page.value || 1,
-    sort: sort.value || 0,
+    sort: sort.value || 1,
     filtro: filtro.value || null,
     filtroVal: filtroVal.value || null,
   }
 
-  console.log(busquedaProducts)
   socket.emit('busquedaFiltrada', busquedaProducts);
+
+  return busquedaProducts;
+
 }
+
+// Llamo a la función que envia los filtros a server.js:
 
 filtrar.addEventListener('click', (e) => {
   e.preventDefault();
@@ -46,25 +51,41 @@ filtrar.addEventListener('click', (e) => {
 });
 
 
+// Limpiar filtros: 
+
+function cleanFiltrarProducts() {
+
+  const busquedaProducts = {
+    limit: limit.value = "" || 10,
+    page: page.value = ""  || 1,
+    sort: sort.value = ""  || 1,
+    filtro: filtro.value = "" || null,
+    filtroVal: filtroVal.value = ""  || null,
+  }
+
+  socket.emit('busquedaFiltrada', busquedaProducts);
+
+  return busquedaProducts;
+
+}
+
+// Llamo a la función que envia los filtros a server.js:
+
+limpiarFiltros.addEventListener('click', (e) => {
+  e.preventDefault();
+  cleanFiltrarProducts()
+});
 
 
 
 
 
+///////////////////////////////////
 
 
+// Escucho el evento productos enviado por el server.js(servidor):
 
-
-
-
-
-    ///////////////////////////////////
-
-
-// Escucha el evento product enviado por el servidor
 socket.on("productos", (data) => {
-
-  console.log(data)
 
   let htmlProductos = "";
 
@@ -82,9 +103,10 @@ socket.on("productos", (data) => {
       </tr>
     </thead>`;
 
+  // Recorro data y creo una card por cada productos
 
-      data.docs.forEach((product) => {
-        htmlProductos += `
+  data.docs.forEach((product) => {
+    htmlProductos += `
           <tr>
             <td>${product.title}</td>
             <td class="description">${product.description}</td>
@@ -94,10 +116,69 @@ socket.on("productos", (data) => {
             <td>$${product.price}</td>
             <td><p class="boton">+ Cart</p></td>
           </tr>`;
-      });
+  });
 
   //Insertamos los productos en el HTML
   table.innerHTML = htmlProductos;
+
+});
+
+
+
+
+
+
+// Paginación de abajo:
+
+socket.on('numberPAG', (page) => {
+
+  let htmlPag = "";
+
+  // Mostramos el número de página en el HTML
+  htmlPag +=
+    `<h2 class="pag" id="Prev">Prev</h2>
+  <h2 class="pag pagNumber" id="numberPag">${page}</h2>
+  <h2 class="pag" id="Next">Next</h2>`;
+
+  // Insertamos el número de página en el elemento HTML
+  Pags.innerHTML = htmlPag;
+
+  // Capturamos los elementos de los botones "Prev" y "Next"
+  const prevButton = document.getElementById('Prev');
+  const nextButton = document.getElementById('Next');
+
+  // Cambiar Pag Prev:
+
+  function cambiarPagina(newPage) {
+    // Establecer newPage a 1 si es menor que 1:
+    if (newPage < 1) {
+      newPage = 1;
+    }
+  
+    const busquedaProducts = {
+      limit: limit.value || 10,
+      page: Number(newPage),
+      sort: sort.value || 0,
+      filtro: filtro.value || null,
+      filtroVal: filtroVal.value || null,
+    }
+  
+    socket.emit('busquedaFiltrada', busquedaProducts);
+  
+    // Actualizar el valor del input de página
+    const pageInput = document.getElementById('page');
+    pageInput.value = newPage.toString();
+  }
+  
+  // Agregamos event listeners a los botones
+  prevButton.addEventListener('click', () => {
+    cambiarPagina(page - 1); // Llamamos a la función para cambiar a la página anterior
+  });
+  
+  nextButton.addEventListener('click', () => {
+    cambiarPagina(page + 1); // Llamamos a la función para cambiar a la página siguiente
+  });
+  
 
 });
 

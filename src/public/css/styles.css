@@ -84,26 +84,6 @@ tbody {
   background-color: #bfe4fd;
 }
 
-.pag{
-  margin-top: 1em;
-  margin-right: 1em;
-  margin-left: 1em;
-  color: #002877;
-  font-family: 'Montserrat';
-  font-size: 1.2em;
-  padding: 0.5em;
-  background-color: #d7eefd;
-  border-radius: 1em;
-}
-
-.pagNumber{  
-  background: none;
-}
-
-.pagNumber:hover{
-  background: none;
-}
-
 input {
   border: none;
   background-color: #efefef;
@@ -128,11 +108,31 @@ input {
   text-align: justify !important;
 }
 
-.Pags{
+#Pags{
   display: flex;
   justify-content:center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: row !important;
+}
+
+.pag{
+  margin-top: 1em;
+  margin-right: 1em;
+  margin-left: 1em;
+  color: #002877;
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  padding: 0.5em;
+  background-color: #d7eefd;
+  border-radius: 1em;
+}
+
+.pagNumber{  
+  background: none;
+}
+
+.pagNumber:hover{
+  background: none;
 }
 
 h2{
