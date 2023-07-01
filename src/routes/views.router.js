@@ -2,31 +2,56 @@ import { Router } from "express";
 import __dirname from "../utils.js"
 import ManagerProducts from "../daos/mongodb/ProductsManager.class.js";
 import ManagerMessage  from "../daos/mongodb/MessagesManager.class.js";
-
+import ManagerCarts from "../daos/mongodb/CartManager.class.js";
 
 const managerProducts = new ManagerProducts();
 const managerMessage = new ManagerMessage();
+const managerCarts = new ManagerCarts();
 
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/cart", async (req, res) => {
 
     // Traigo los productos:
-    const products = await  managerProducts.consultarProductos();
+    const carts = await  managerCarts.consultarCarts();
 
     // Renderizamos la vista del home con los productos:
-    res.render("home", { style: "home.css", title: "Productos", products });
+    res.render("cart", { style: "home.css", title: "Productos", carts });
 
 });
 
-router.get("/realTimeProducts", async (req, res) => {
+router.get("/cart/:cid", async (req, res) => {
 
-    // Traigo los productos:
-    const products = await  managerProducts.consultarProductos();
+    const cid = req.query.cid;
 
-    // Renderizamos la vista del home con los Productos Actualizados:
-    res.render("realTimeProducts", { style: "home.css", title: "Productos Actualizados", products });
+    // Traigo el carrito y lo guardo en cart:
+    const cart = await  managerCarts.consultarCartPorId(cid);
 
+    // Renderizamos la vista del cart cid:
+    res.render("cartId", { style: "home.css", title: "Carts", cart });
+
+});
+
+router.get("/realtimeproducts", async (req, res) => {
+
+    try {
+
+        const limit = Number(req.query.limit);
+        const page = Number(req.query.page);
+        let sort = Number(req.query.sort);
+        let filtro = req.query.filtro;
+        let filtroVal = req.query.filtroVal;
+
+        const products = await managerProducts.consultarProductos(limit, page, sort, filtro, filtroVal);
+
+        res.render("realTimeProducts", { style: "home.css", title: "Productos Actualizados", products });
+    } 
+    catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({
+            error: "Error al consultar los productos. Por favor, inténtelo de nuevo más tarde."
+        });
+    }
 });
 
 router.get("/chat", async (req, res) =>{

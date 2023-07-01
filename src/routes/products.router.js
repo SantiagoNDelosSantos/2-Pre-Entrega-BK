@@ -14,9 +14,7 @@ router.get("/:id", async (req, res) => {
                 error: `No se encontró ningún producto con el ID ${id}.`
             });
         } else {
-            res.send({
-                product
-            });
+            res.send({product});
         }
     } catch (error) {
         console.error("Error:", error.message);
@@ -29,18 +27,17 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
 
-        const limit = Number(req.query.limit);
-        const page = Number(req.query.page);
-        let sort = Number(req.query.sort);
-        let filtro = req.query.filtro;
-        let filtroVal = req.query.filtroVal;
+        const limit = Number(req.query.limit) || 10;
+        const page = Number(req.query.page) || 1;
+        let sort = Number(req.query.sort) || 1;
+        let filtro = req.query.filtro || null;
+        let filtroVal = req.query.filtroVal || null;
 
-        const products = await managerProducts.consultarProductos(limit, page, sort, filtro, filtroVal);
+        const data = await managerProducts.consultarProductos(limit, page, sort, filtro, filtroVal);
 
-        res.render("products", {products});
+        res.send(data);
+        console.log(data.products.docs); 
     } 
-    
-    
     catch (error) {
         console.error("Error:", error.message);
         res.status(500).json({
@@ -56,6 +53,7 @@ router.post("/", async (req, res) => {
         const product = req.body;
 
         const createdProduct = await managerProducts.crearProducto(product);
+        
         const products = await managerProducts.consultarProductos();
 
         req.socketServer.sockets.emit('productos', products);
@@ -63,6 +61,8 @@ router.post("/", async (req, res) => {
         res.send({
             product: createdProduct
         });
+
+
     } catch (error) {
         console.error("Error:", error.message);
         res.status(500).json({
@@ -76,6 +76,10 @@ router.put("/:pid", async (req, res) => {
         const pid = req.params.pid;
         const updatedFields = req.body;
         const updatedProduct = await managerProducts.actualizarProducto(pid, updatedFields);
+
+        const products = await managerProducts.consultarProductos();
+
+        req.socketServer.sockets.emit('productos', products);
 
         if (!updatedProduct) {
             console.log(`No se encontró ningún producto con el ID ${pid}.`)
