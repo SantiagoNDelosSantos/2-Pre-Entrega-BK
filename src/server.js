@@ -18,7 +18,6 @@ import {
 import ManagerProducts from './daos/mongodb/ProductsManager.class.js';
 import ManagerMessage from './daos/mongodb/MessagesManager.class.js';
 import ManagerCarts from './daos/mongodb/CartManager.class.js';
-import ManagerCartCID from './daos/mongodb/CartCidManager.class.js';
 
 // Iniciamos el servidor:
 const app = express();
@@ -48,7 +47,6 @@ const socketServer = new Server(expressServer);
 export const pdcMANGR = new ManagerProducts();
 export const smsMANGR = new ManagerMessage();
 export const cartMANGR = new ManagerCarts();
-export const cidMANGR = new ManagerCartCID();
 
 socketServer.on("connection", async (socket) => {
 
@@ -108,7 +106,6 @@ socketServer.on("connection", async (socket) => {
         socketServer.emit("productos", products);
     })
 
-
     // Escuchamos el evento deleteProduct y recibimos el id del producto:
     socket.on("deleteProduct", (id) => {
         products.splice(
@@ -116,9 +113,6 @@ socketServer.on("connection", async (socket) => {
         );
         socketServer.emit("productos", products);
     })
-
-
-
 
 
     // Carts:
@@ -130,16 +124,11 @@ socketServer.on("connection", async (socket) => {
         docs: carts
     });
 
-    socket.on("CarritoCID", async (cid) => {
-
-        const cartCID = await cidMANGR.consultaCartCID(cid);
-
-        socketServer.emit('CCID', (cartCID));
-
+    // Accedo a los productos de un carrito especifico: 
+    socket.on("CartCid", async (cartID) => {
+        const cartCID = await cartMANGR.consultarCartPorId(cartID);
+        socketServer.emit("CARTID", (cartCID));
     })
-
-
-
 
 
     //Messages:

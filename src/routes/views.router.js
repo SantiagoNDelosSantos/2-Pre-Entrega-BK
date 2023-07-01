@@ -20,18 +20,6 @@ router.get("/cart", async (req, res) => {
 
 });
 
-router.get("/cart/:cid", async (req, res) => {
-
-    const cid = req.query.cid;
-
-    // Traigo el carrito y lo guardo en cart:
-    const cart = await  managerCarts.consultarCartPorId(cid);
-
-    // Renderizamos la vista del cart cid:
-    res.render("cartId", { style: "home.css", title: "Carts", cart });
-
-});
-
 router.get("/realtimeproducts", async (req, res) => {
 
     try {
